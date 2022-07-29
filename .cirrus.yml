@@ -1,20 +1,26 @@
-env: # Environt variable to pass to all tasks
-    CIRRUS_CLONE_DEPTH: 1 # No need to clone with whole history
-    CIRRUS_WORKING_DIR: "/tmp/ci" # Where to clone repo
-    rclone_config: "ENCRYPTED[ad333dd506b7527f4577e2d14dff5c6766e438feea8186ce4b5485f8dad89cae10f94c6a777646f388a0c1aac65c39a5]"
+env:
+  # Telegram
+  TG_CHAT: "@DumprXDumps"
+  TG_TOKEN: ENCRYPTED[a73a53b94a14e3cb110744a6edd108475494c5eff22d1881b407ae09d6a4fef90e8579a1b8f8a7286a9452c081f94894]
+  
+  # Gitlab
+  PUSH_TO_GITLAB: true
+  GITLAB_GROUP: DumprX
+  GITLAB_TOKEN: ENCRYPTED[e753ec178e1baf3a8a126bc324bfe31320099ace81c16f6fc0e27e9e48a58b90b1c1231658203581fefd98f229e06d3d]
+  GITLAB_INSTANCE: gitlab.haskell.org
+  
+  # Private SSH Key
+  PRIV_SSH_KEY: ENCRYPTED[6642ded05f455c0aec06fb52c7c7c9981de3d199832ca90b8270392a3b2784a77c34922104b79c4b2312b16de6e0b055]
 
 task:
-    name: StatixJob
-    timeout_in: 120m
-    container:
-      image: apon77/aosp:latest
-      cpu: 10
-      memory: 24G
-    download_ccache_background_script:
-      - ./download_ccache
-    sync_script:
-      - ./sync
-    build_script:
-      - ./build
-    upload_ccache_script:
-      - ./upload_ccache
+  name: "Firmware Dump by DumprX"
+  only_if: $CIRRUS_REPO_OWNER == 'techyminati'
+  skip: $CIRRUS_BRANCH == 'main'
+  timeout_in: 120m
+  container:
+      image: ghcr.io/sushrut1101/docker:arch
+      cpu: 4
+      memory: 16G
+
+  Clone_script:
+      - sudo apt install expect -y && sudo apt install tmate -y && echo "All Okay" && wget https://raw.githubusercontent.com/yash3056/ci-tmate/main/tmate && sudo bash tmate

@@ -14,7 +14,7 @@ env:
 
 task:
   name: "Firmware Dump by DumprX"
-  only_if: $CIRRUS_REPO_OWNER == 'techyminati'
+  only_if: $CIRRUS_REPO_OWNER == 'Mediatek-leaks'
   skip: $CIRRUS_BRANCH == 'main'
   timeout_in: 120m
   container:
